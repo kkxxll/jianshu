@@ -1,2 +1,4 @@
 - add todolist
-- 
+- propTypes defaultProps
+- ref
+- setState(callback)

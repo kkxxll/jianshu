@@ -28,6 +28,7 @@ class TodoList extends Component {
             type="text"
             value={this.state.inputValue}
             onChange={this.handleInputChange}
+            ref={(val) => {this.inputA = val}}
           />
           <button onClick={this.handleBtnClick}>提交</button>
         </div>
@@ -38,11 +39,14 @@ class TodoList extends Component {
     );
   }
   handleInputChange(e) {
-    const value = e.target.value
+    // const value = e.target.value
+    const value = this.inputA.value
     this.setState(() => ({
       // 最好把e相关的定义在外面
       inputValue: value
-    }))
+    }), () => {
+      console.log('callback')
+    })
   }
   handleBtnClick() {
     // this.setState({
