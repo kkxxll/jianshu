@@ -2,3 +2,4 @@
 - propTypes defaultProps
 - ref
 - setState(callback)
+- shouldComponentUpdate (性能提升)
