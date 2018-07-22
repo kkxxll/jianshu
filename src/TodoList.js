@@ -5,6 +5,8 @@ import './style.css';
 
 import TodoItem from './TodoItem';
 
+import axios from 'axios'
+
 class TodoList extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +17,13 @@ class TodoList extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleBtnClick = this.handleBtnClick.bind(this);
     this.handleItemDelete = this.handleItemDelete.bind(this);
+  }
+  componentDidMount () {
+    axios.get('/api/todolist')
+    .then(() => {
+    }).catch((err) => {
+      console.log(err)
+    })
   }
   render() {
     return (
