@@ -1,37 +1,47 @@
 import React, { Component, Fragment } from 'react'
 
 import './style.css'
-import { CSSTransition } from 'react-transition-group'
+import { CSSTransition, TransitionGroup } from 'react-transition-group'
 
 
 class App extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            show: true
+            list: []
         }
-        this.handleToogle = this.handleToogle.bind(this)
+        this.handleAddList = this.handleAddList.bind(this)
     }
     
     render() {
         return (
             <Fragment>
-                <CSSTransition
-                    in={this.state.show}
-                    timeout={1000}
-                    classNames='fade'
-                >
-                    <div>hello</div>
-                </CSSTransition>
-                <button onClick={this.handleToogle}>toogle</button>
+                <TransitionGroup>
+                    {this.state.list.map((item, index) => {
+                        return (
+                            <CSSTransition
+                                timeout={1000}
+                                classNames='fade'
+                                appear={true}
+                                key={index}
+                            >
+                                <div>
+                                    {item}
+                                </div>
+                            </CSSTransition>
+                        )
+                    })}
+                </TransitionGroup>
+                <button onClick={this.handleAddList}>add</button>
             </Fragment>
         )
     }
-    handleToogle() {
-        this.setState({
-            show: this.state.show ? false:true
+    handleAddList() {
+        this.setState((prevState) => {
+            return {
+                list: [ ...prevState.list, 'item']
+            }
         })
-        console.log(this.state.show)
     }
 }
 
