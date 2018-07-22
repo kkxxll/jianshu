@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 
 import './style.css'
+import { CSSTransition } from 'react-transition-group'
+
 
 class App extends Component {
     constructor(props) {
@@ -10,11 +12,17 @@ class App extends Component {
         }
         this.handleToogle = this.handleToogle.bind(this)
     }
+    
     render() {
         return (
             <Fragment>
-                <div className={this.state.show ? 'show': 'hide'}>hello</div>
-                <div className={this.state.show ? 'show__item': 'hide__item'}>hello kk</div>
+                <CSSTransition
+                    in={this.state.show}
+                    timeout={1000}
+                    classNames='fade'
+                >
+                    <div>hello</div>
+                </CSSTransition>
                 <button onClick={this.handleToogle}>toogle</button>
             </Fragment>
         )
@@ -23,6 +31,7 @@ class App extends Component {
         this.setState({
             show: this.state.show ? false:true
         })
+        console.log(this.state.show)
     }
 }
 
