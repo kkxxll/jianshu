@@ -7,3 +7,4 @@
 - 动画库(single)
 - 动画库(multiple)
 - redux todolist
+- add actionTypes
