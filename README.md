@@ -9,3 +9,4 @@
 - redux todolist
 - add actionTypes
 - add actionCreator
+- props、智能组件(逻辑)和木偶组件(UI)
