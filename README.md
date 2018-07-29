@@ -8,3 +8,4 @@
 - 动画库(multiple)
 - redux todolist
 - add actionTypes
+- add actionCreator
