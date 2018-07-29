@@ -4,11 +4,16 @@ import 'antd/dist/antd.css';
 // import TodoListUI from './TodoListUI'
 import { TodoListUI } from './TodoListUI_1'
 
+import './mock/list'
+
+import axios from 'axios'
+
 import store from './store';
 import {
   getInputChangeAction,
   getAddItemAction,
-  getDelItemAction
+  getDelItemAction,
+  initListAction
 } from './store/actionCreator';
 
 class TodoList extends Component {
@@ -32,6 +37,13 @@ class TodoList extends Component {
         handleDel = {this.handleDel}
       />
     );
+  }
+  componentDidMount() {
+    axios.get('/list').then(res => {
+      const data = res.data
+      const action = initListAction(data)
+      console.log(action)
+    })
   }
   handleInputChange(e) {
     const action = getInputChangeAction(e.target.value);
