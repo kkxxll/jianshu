@@ -12,3 +12,4 @@
 - props、智能组件(逻辑)和木偶组件(UI)
 - 无状态组件
 - mockjs
+- redux-thunk

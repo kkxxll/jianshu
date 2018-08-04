@@ -6,14 +6,13 @@ import { TodoListUI } from './TodoListUI_1'
 
 import './mock/list'
 
-import axios from 'axios'
-
 import store from './store';
 import {
   getInputChangeAction,
   getAddItemAction,
   getDelItemAction,
-  initListAction
+  initListAction,
+  getTodoList
 } from './store/actionCreator';
 
 class TodoList extends Component {
@@ -39,11 +38,12 @@ class TodoList extends Component {
     );
   }
   componentDidMount() {
-    axios.get('/list').then(res => {
-      const data = res.data
-      const action = initListAction(data)
-      console.log(action)
-    })
+    const action = getTodoList()
+    store.dispatch(action)
+    // axios.get('/list').then(res => {
+    //   const data = res.data
+    //   const action = initListAction(data)
+    // })
   }
   handleInputChange(e) {
     const action = getInputChangeAction(e.target.value);

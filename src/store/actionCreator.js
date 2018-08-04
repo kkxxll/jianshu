@@ -4,6 +4,7 @@ import {
   CHANGE_INPUT_VALUE,
   INIT_LIST
 } from './actionTypes';
+import axios from 'axios'
 
 export const getInputChangeAction = value => ({
   type: CHANGE_INPUT_VALUE,
@@ -20,3 +21,13 @@ export const initListAction = data => ({
   type: INIT_LIST,
   data
 });
+export const getTodoList = () => {
+  return () => {
+    axios.get('/list').then(res => {
+      const data = res.data
+      console.log(data)
+      // const action = initListAction(data)
+      // console.log(action)
+    })
+  }
+};
