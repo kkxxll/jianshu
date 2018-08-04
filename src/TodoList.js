@@ -6,13 +6,15 @@ import { TodoListUI } from './TodoListUI_1'
 
 import './mock/list'
 
+import axios from 'axios'
+
 import store from './store';
 import {
   getInputChangeAction,
   getAddItemAction,
   getDelItemAction,
   initListAction,
-  getTodoList
+  getInitList
 } from './store/actionCreator';
 
 class TodoList extends Component {
@@ -38,11 +40,12 @@ class TodoList extends Component {
     );
   }
   componentDidMount() {
-    const action = getTodoList()
+    const action  = getInitList()
     store.dispatch(action)
     // axios.get('/list').then(res => {
     //   const data = res.data
     //   const action = initListAction(data)
+    // console.log(action)
     // })
   }
   handleInputChange(e) {
