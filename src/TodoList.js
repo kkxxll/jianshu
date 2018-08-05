@@ -1,68 +1,69 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css';
+// import store from './store'
+import { connect } from 'react-redux';
 
-// import TodoListUI from './TodoListUI'
-import { TodoListUI } from './TodoListUI_1'
+const TodoList = props => {
+  const {
+    inputValue,
+    list,
+    changeChangeInput,
+    handleClick,
+    handleDelete
+  } = props;
+  return (
+    <div>
+      <div>
+        <input type="text" value={inputValue} onChange={changeChangeInput} />
+        <button onClick={handleClick}>提交</button>
+      </div>
+      <ul>
+        {list.map((item, idx) => {
+          return (
+            <li key={idx} onClick={handleDelete.bind(this, idx)}>
+              {item}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+};
 
-import './mock/list'
+// 把store的state映射成props
+const mapStateProps = state => {
+  return {
+    inputValue: state.inputValue,
+    list: state.list
+  };
+};
 
-import axios from 'axios'
+// store.dispatch 映射到props
+const mapDispatchToProps = dispatch => {
+  return {
+    changeChangeInput(e) {
+      const action = {
+        type: 'change_input_value',
+        value: e.target.value
+      };
+      dispatch(action);
+    },
+    handleClick() {
+      const action = {
+        type: 'add_item'
+      };
+      dispatch(action);
+    },
+    handleDelete(idx) {
+      const action = {
+        type: 'del_item',
+        idx
+      };
+      dispatch(action);
+    }
+  };
+};
 
-import store from './store';
-import {
-  getInputChangeAction,
-  getAddItemAction,
-  getDelItemAction,
-  initListAction,
-  getInitList
-} from './store/actionCreator';
-
-class TodoList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = store.getState();
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleStoreChange = this.handleStoreChange.bind(this);
-    this.handleBtnClick = this.handleBtnClick.bind(this);
-    this.handleDel = this.handleDel.bind(this);
-    // 当store变化时，触发handleStoreChange
-    store.subscribe(this.handleStoreChange);
-  }
-  render() {
-    return (
-      <TodoListUI
-        inputValue = {this.state.inputValue}
-        handleInputChange = {this.handleInputChange}
-        handleBtnClick = {this.handleBtnClick}
-        list = {this.state.list}
-        handleDel = {this.handleDel}
-      />
-    );
-  }
-  componentDidMount() {
-    const action  = getInitList()
-    store.dispatch(action)
-    // axios.get('/list').then(res => {
-    //   const data = res.data
-    //   const action = initListAction(data)
-    // console.log(action)
-    // })
-  }
-  handleInputChange(e) {
-    const action = getInputChangeAction(e.target.value);
-    store.dispatch(action);
-  }
-  handleStoreChange() {
-    this.setState(store.getState());
-  }
-  handleBtnClick() {
-    const action = getAddItemAction();
-    store.dispatch(action);
-  }
-  handleDel(idx) {
-    const action = getDelItemAction(idx);
-    store.dispatch(action);
-  }
-}
-
-export default TodoList;
+export default connect(
+  mapStateProps,
+  mapDispatchToProps
+)(TodoList);
