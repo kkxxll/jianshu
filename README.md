@@ -24,3 +24,5 @@
 - react-transition-group
 - redux
 - react-redux
+- redux-devtools-extension
+- combineReducers 拆分管理reducer
