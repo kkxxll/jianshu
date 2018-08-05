@@ -15,3 +15,10 @@
 - redux-thunk
 - redux-sag
 - react-redux
+
+### end prepare
+
+---
+
+- styled-components
+- react-transition-group
