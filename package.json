@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.7.1",
     "axios": "^0.18.0",
+    "immutable": "^3.8.2",
     "mockjs": "^1.0.1-beta3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

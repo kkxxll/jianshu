@@ -27,3 +27,4 @@
 - redux-devtools-extension
 - combineReducers 拆分管理reducer
 - actionCreators与constants(actioTypes)拆分
+- immutable.js管理store中的state
