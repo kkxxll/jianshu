@@ -29,3 +29,4 @@
 - actionCreators与constants(actioTypes)拆分
 - immutable.js管理store中的state
 - redux-immutable 规范immutable格式
+- header部分

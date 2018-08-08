@@ -46,7 +46,7 @@ const Header = class Header extends Component {
             <i className={focused ? 'focused iconfont zoom' : 'iconfont zoom'}>
               &#xe614;
             </i>
-            {this.getListArea(focused)}
+            {this.getListArea()}
           </SearchWrapper>
         </Nav>
         <Addition>
@@ -59,26 +59,49 @@ const Header = class Header extends Component {
       </HeaderWrapper>
     );
   }
-  getListArea(show) {
-    if (show) {
+  getListArea() {
+    const {
+      mouseIn,
+      focused,
+      page,
+      list,
+      handleMouseEnter,
+      handleMouseLeave,
+      handleChangePage,
+      totalPage
+    } = this.props;
+    const newList = list.toJS();
+    const pageList = [];
+    // 由于一开始 newList为空数组，而page有值为1 所以for会执行，造成key的值就为undefind
+    // 解决：newList有数据时候，再进入for循环
+    if (newList.length > 0) {
+      for (let i = (page - 1) * 10; i < page * 10; i++) {
+        pageList.push(<SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>);
+      }
+    }
+    if (focused || mouseIn) {
       return (
-        <SearchInfo>
+        <SearchInfo
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
           <SearchInfoTitle>
             热门搜索
-            <SearchInfoSwitch>
-              <i className="iconfont spin">&#xe851;</i>
+            <SearchInfoSwitch
+              onClick={() => {
+                handleChangePage(page, totalPage, this.spinIcon);
+              }}
+            >
+              <i 
+                className="iconfont spin"
+                ref={(icon) => {
+                  this.spinIcon = icon
+                }}
+              >&#xe851;</i>
               换一批
             </SearchInfoSwitch>
           </SearchInfoTitle>
-          <SearchInfoList>
-            {
-              this.props.list.map((item) => {
-                return (
-                  <SearchInfoItem key={item}>{item}</SearchInfoItem>
-                )
-              })
-            }
-          </SearchInfoList>
+          <SearchInfoList>{pageList}</SearchInfoList>
         </SearchInfo>
       );
     } else {
@@ -92,17 +115,43 @@ const mapStateToProps = state => {
     // focused: state.get('header').get('focused')
     // 等价于
     focused: state.getIn(['header', 'focused']),
-    list: state.getIn(['header', 'list'])
+    list: state.getIn(['header', 'list']),
+    page: state.getIn(['header', 'page']),
+    mouseIn: state.getIn(['header', 'mouseIn']),
+    totalPage: state.getIn(['header', 'totalPage'])
   };
 };
 const mapDispatch = dispatch => {
   return {
     handleInputFocus() {
       dispatch(actionCreators.searchFocus());
-      dispatch(actionCreators.getList())
+      dispatch(actionCreators.getList());
     },
     handleInputBlur() {
       dispatch(actionCreators.searchBlur());
+    },
+    handleMouseEnter() {
+      dispatch(actionCreators.mouseEnter());
+    },
+    handleMouseLeave() {
+      dispatch(actionCreators.mouseLeave());
+    },
+    handleChangePage(page, totalPage, spin) {
+      // 'rotate(360deg)' 非数字的字符替换为空
+      let originAngle = spin.style.transform.replace(/[^0-9]/ig, '') 
+      if(originAngle) {
+        // 转成整数
+        originAngle = parseInt(originAngle, 10)
+      } else {
+        originAngle = 0
+      }
+      spin.style.transform = `rotate(${originAngle+360}deg)`
+      // console.log(spin.style.transform)
+      if (page < totalPage) {
+        dispatch(actionCreators.changePage(page + 1));
+      } else {
+        dispatch(actionCreators.changePage(1));
+      }
     }
   };
 };
