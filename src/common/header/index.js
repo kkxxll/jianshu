@@ -24,7 +24,7 @@ const Header = class Header extends Component {
     this.state = {};
   }
   render() {
-    const { focused, handleInputBlur, handleInputFocus } = this.props;
+    const { focused, handleInputBlur, handleInputFocus, list } = this.props;
     return (
       <HeaderWrapper>
         <Logo />
@@ -39,7 +39,9 @@ const Header = class Header extends Component {
             <CSSTransition in={focused} timeout={200} classNames="slide">
               <NavSearch
                 className={focused ? 'focused' : ''}
-                onFocus={handleInputFocus}
+                onFocus={() => {
+                  handleInputFocus(list);
+                }}
                 onBlur={handleInputBlur}
               />
             </CSSTransition>
@@ -76,7 +78,9 @@ const Header = class Header extends Component {
     // 解决：newList有数据时候，再进入for循环
     if (newList.length > 0) {
       for (let i = (page - 1) * 10; i < page * 10; i++) {
-        pageList.push(<SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>);
+        pageList.push(
+          <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+        );
       }
     }
     if (focused || mouseIn) {
@@ -92,12 +96,14 @@ const Header = class Header extends Component {
                 handleChangePage(page, totalPage, this.spinIcon);
               }}
             >
-              <i 
+              <i
                 className="iconfont spin"
-                ref={(icon) => {
-                  this.spinIcon = icon
+                ref={icon => {
+                  this.spinIcon = icon;
                 }}
-              >&#xe851;</i>
+              >
+                &#xe851;
+              </i>
               换一批
             </SearchInfoSwitch>
           </SearchInfoTitle>
@@ -123,9 +129,14 @@ const mapStateToProps = state => {
 };
 const mapDispatch = dispatch => {
   return {
-    handleInputFocus() {
+    handleInputFocus(list) {
+      // 当没数据时请求，不用每次都请求
+      // if(list.length === 0) {
+      //   dispatch(actionCreators.searchFocus());
+      // }
+      // 简写成以下
+      list.size === 0 && dispatch(actionCreators.getList());
       dispatch(actionCreators.searchFocus());
-      dispatch(actionCreators.getList());
     },
     handleInputBlur() {
       dispatch(actionCreators.searchBlur());
@@ -138,14 +149,14 @@ const mapDispatch = dispatch => {
     },
     handleChangePage(page, totalPage, spin) {
       // 'rotate(360deg)' 非数字的字符替换为空
-      let originAngle = spin.style.transform.replace(/[^0-9]/ig, '') 
-      if(originAngle) {
+      let originAngle = spin.style.transform.replace(/[^0-9]/gi, '');
+      if (originAngle) {
         // 转成整数
-        originAngle = parseInt(originAngle, 10)
+        originAngle = parseInt(originAngle, 10);
       } else {
-        originAngle = 0
+        originAngle = 0;
       }
-      spin.style.transform = `rotate(${originAngle+360}deg)`
+      spin.style.transform = `rotate(${originAngle + 360}deg)`;
       // console.log(spin.style.transform)
       if (page < totalPage) {
         dispatch(actionCreators.changePage(page + 1));
