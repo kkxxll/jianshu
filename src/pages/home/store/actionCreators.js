@@ -33,3 +33,8 @@ export const getMoreList = page => {
     });
   };
 };
+
+export const toogleTopShow = (show) => ({
+  type: actionTypes.TOOGLE_SCROLL_TOP,
+  show
+})
