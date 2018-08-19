@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { HomeWrapper, HomeLeft, HomeRight } from './style';
 import { connect } from 'react-redux';
 
+import { actionCreators } from './store'
+
 import Topic from './components/Topic';
 import List from './components/List';
 import Recommend from './components/Recommend';
 import Writer from './components/Writer';
-
-import '../../mock/home';
-import axios from 'axios';
 
 class Home extends Component {
   render() {
@@ -37,16 +36,8 @@ class Home extends Component {
 
 const mapDispatch = dispatch => ({
   changeHomeData() {
-    axios.get('/api/home').then(res => {
-      const result = res.data.data;
-      const action = {
-        type: 'change_home_data',
-        topicList: result.topicList,
-        articleList: result.articleList,
-        recommendList: result.recommendList
-      };
-      dispatch(action);
-    });
+    const action = actionCreators.getHomeInfo()
+    dispatch(action)
   }
 });
 
