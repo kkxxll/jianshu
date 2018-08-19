@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 import Header from './common/header';
+import Home from './pages/home'
+import Detail from './pages/detail'
 class App extends Component {
   render() {
     return (
@@ -9,13 +11,11 @@ class App extends Component {
         <Header />
         <BrowserRouter>
           <div>
-            <Route path="/" exact render={() => <div>Home</div>} />
+            <Route path="/" exact component={Home} />
             <Route
               exact
               path="/detail"
-              render={() => {
-                return <div>detial</div>;
-              }}
+              component={Detail}
             />
           </div>
         </BrowserRouter>

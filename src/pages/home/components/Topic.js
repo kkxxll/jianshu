@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 
-class Detail extends Component {
+class Topic extends Component {
     render() {
         return(
-            <div>Detali</div>
+            <div>Topic</div>
         )
     }
 }
 
-export default Detail
+export default Topic
