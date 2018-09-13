@@ -40,3 +40,4 @@
 - 跳转detail
 - detail 传参
 - login
+- logout

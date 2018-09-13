@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { CSSTransition } from 'react-transition-group';
 import { actionCreators } from './store';
+import { actionCreators as loginActionCreators } from '../../pages/login/store'
 import {
   HeaderWrapper,
   Logo,
@@ -30,7 +31,8 @@ const Header = class Header extends Component {
       handleInputBlur,
       handleInputFocus,
       list,
-      login
+      login,
+      logout
     } = this.props;
     return (
       <HeaderWrapper>
@@ -39,7 +41,7 @@ const Header = class Header extends Component {
           <NavItem className="left active">首页</NavItem>
           <NavItem className="left">下载App</NavItem>
           {login ? (
-            <NavItem className="right">
+            <NavItem onClick={logout} className="right">
               退出
             </NavItem>
           ) : (
@@ -179,6 +181,9 @@ const mapDispatch = dispatch => {
       } else {
         dispatch(actionCreators.changePage(1));
       }
+    },
+    logout() {
+      dispatch(loginActionCreators.logout())
     }
   };
 };
