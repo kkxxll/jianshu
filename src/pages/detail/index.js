@@ -6,7 +6,7 @@ import { DetailWrapper, Header, Content } from './style';
 
 class Detail extends Component {
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     return (
       <DetailWrapper>
         <Header>{this.props.title}</Header>

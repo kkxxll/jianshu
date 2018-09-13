@@ -20,7 +20,7 @@ export const getHomeInfo = () => {
   return dispatch => {
     axios.get('/api/home').then(res => {
       const result = res.data.home;
-      console.log(result);
+      // console.log(result);
       dispatch(changeHomeData(result));
     });
   };
