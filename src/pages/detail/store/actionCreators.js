@@ -9,9 +9,14 @@ const changeDetail = (title, content) => ({
     content
 })
 
-export const getDetail = () => {
+export const getDetail = (id) => {
   return dispatch => {
-    axios.get('/api/detail').then(res => {
+    // 由于mock不能params，所以注释
+    axios.get('/api/detail', {
+      // params: {
+      //   id
+      // }
+    }).then(res => {
       const result = res.data.data;
       dispatch(changeDetail(result.title, result.content));
     });
