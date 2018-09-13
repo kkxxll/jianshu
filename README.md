@@ -41,3 +41,4 @@
 - detail 传参
 - login
 - logout
+- 登录权限
