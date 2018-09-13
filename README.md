@@ -41,4 +41,5 @@
 - detail 传参
 - login
 - logout
-- 登录权限
+- 权限
+- 异步加载组件 react-loadable
